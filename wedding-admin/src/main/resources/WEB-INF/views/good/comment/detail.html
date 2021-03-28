@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品评价详情 - 婚礼策划后台管理系统</title>
+    <!--: include("/import.html"){} -->
+    <style>
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .img {
+            width: 75px;
+            height: 75px;
+            margin: 10px 20px 0px 0px
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row layui-col-space5">
+        <div class="grid-demo">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+                <legend>商品评价详情</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane" action="" lay-filter="form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品ID</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="goodsId" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+                <input id="upload" type="file" style="display: none"/>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="goodsName" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品评价</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="content" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">评价星级(>=3为中好评，<3为差评)</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="commentStar" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="username" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">浏览次数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="lookedTime" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">点赞次数</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="approveTime" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">评论日期</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="assessTime" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">买家秀</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="img" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品图片</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="goodsImg" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input" disabled>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header">商品图片</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row imgs">
+                            <div class="layui-col-xs4 imgAdd img">
+                                <a href="#" class="layui-btn layui-btn-primary"
+                                   style="width: 75px;height: 75px;padding: 20px">
+                                    +
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form', 'layer', 'jquery', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , $ = layui.jquery
+            , laydate = layui.laydate;
+
+
+        $(document).ready(function () {
+
+            let id = "${id}";
+            $.ajax({
+                url: "/wedding/admin/comment/detailList",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({
+                    "id": id
+                }),
+                success: function (data) {
+                    if (data.succeed) {
+                        var item = data.data;
+                        console.log("-----comment------data{}",item)
+                        form.val('form', {
+                            "goodsId": item.goodsId,
+                            "goodsName": item.goodsName,
+                            "content": item.content,
+                            "commentStar": item.commentStar,
+                            "username": item.username,
+                            "img": item.img,
+                            "lookedTime": item.lookedTime,
+                            "approveTime": item.approveTime,
+                            "assessTime": item.assessTime,
+                            "goodsImg": item.goodsImg
+                        })
+
+                    } else {
+                        layer.alert(data.msg, {"icon": 2});
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg)
+                }
+            });
+        })
+
+    })
+</script>
+</html>

@@ -1,0 +1,14 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: wedding-client
+  mvc:
+    static-path-pattern: static/**
+    view:
+      prefix: /WEB-INF/views
+      suffix: .html
+
+ #配置日志 /logs 会将日志写到文件中
+logging:
+  config: classpath:logback-spring.xml

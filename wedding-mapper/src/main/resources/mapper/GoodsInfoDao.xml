@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingnan.wedding.mapper.GoodsInfoDao">
+
+    <resultMap type="com.lingnan.wedding.core.entity.GoodsInfo" id="GoodsInfoMap">
+        <result property="goodsId" column="goods_id" jdbcType="INTEGER"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="goodsIntro" column="goods_intro" jdbcType="VARCHAR"/>
+        <result property="goodsTypeId" column="goods_type_id" jdbcType="INTEGER"/>
+        <result property="goodsType" column="type" jdbcType="INTEGER"/>
+        <result property="goodsImg" column="goods_img" jdbcType="VARCHAR"/>
+        <result property="goodsDetailContent" column="goods_detail_content" jdbcType="VARCHAR"/>
+        <result property="originalPrice" column="original_price" jdbcType="NUMERIC"/>
+        <result property="sellingPrice" column="selling_price" jdbcType="NUMERIC"/>
+        <result property="stockNum" column="stock_num" jdbcType="INTEGER"/>
+        <result property="tag" column="tag" jdbcType="VARCHAR"/>
+        <result property="goodsSellStatus" column="goods_sell_status" jdbcType="INTEGER"/>
+        <result property="sellNum" column="sell_num" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsInfoMap">
+        select
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+        from wedding_db.goods_info
+        where goods_id = #{goodsId}
+    </select>
+
+    <!--查询单个-->
+    <select id="searchHot" resultMap="GoodsInfoMap">
+        select
+         *
+        from wedding_db.goods_info
+        order by sell_num desc
+        limit 20
+    </select>
+
+    <!--查询单个-->
+    <select id="findAllByGoodsType" resultMap="GoodsInfoMap">
+        select
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+        from wedding_db.goods_info
+        where goods_type_id = #{goodsTypeId}
+    </select>
+    <!--查询单个-->
+    <select id="queryDetail" resultMap="GoodsInfoMap">
+        select
+          goods_id, goods_name, goods_intro, t.type, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+        from wedding_db.goods_info info
+        left join wedding_db.good_type t
+        on  t.id = info.goods_type_id
+        where goods_id = #{goodsId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsInfoMap">
+        select
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+        from wedding_db.goods_info
+        <where>
+            <if test="goodsName !=null and goodsName != ''">
+                and goods_name like '%${goodsName}%'
+            </if>
+            <if test="goodsSellStatus !=null">
+                and goods_sell_status = #{goodsSellStatus}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="GoodsInfoMap">
+        select
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+        from wedding_db.goods_info
+        <where>
+            <if test="goodsId != null">
+                and goods_id = #{goodsId}
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name  like '%${goodsName}%'
+            </if>
+            <if test="goodsIntro != null and goodsIntro != ''">
+                and goods_intro = #{goodsIntro}
+            </if>
+            <if test="goodsTypeId != null">
+                and goods_type_id = #{goodsTypeId}
+            </if>
+            <if test="goodsImg != null and goodsImg != ''">
+                and goods_img = #{goodsImg}
+            </if>
+            <if test="goodsDetailContent != null and goodsDetailContent != ''">
+                and goods_detail_content = #{goodsDetailContent}
+            </if>
+            <if test="originalPrice != null">
+                and original_price = #{originalPrice}
+            </if>
+            <if test="sellingPrice != null">
+                and selling_price = #{sellingPrice}
+            </if>
+            <if test="stockNum != null">
+                and stock_num = #{stockNum}
+            </if>
+            <if test="tag != null and tag != ''">
+                and tag = #{tag}
+            </if>
+            <if test="goodsSellStatus != null">
+                and goods_sell_status = #{goodsSellStatus}
+            </if>
+
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
+        insert into wedding_db.goods_info(goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status)
+        values (#{goodsName}, #{goodsIntro}, #{goodsTypeId}, #{goodsImg}, #{goodsDetailContent}, #{originalPrice}, #{sellingPrice}, #{stockNum}, #{tag}, #{goodsSellStatus})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wedding_db.goods_info
+        <set>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsIntro != null and goodsIntro != ''">
+                goods_intro = #{goodsIntro},
+            </if>
+            <if test="goodsTypeId != null">
+                goods_type_id = #{goodsTypeId},
+            </if>
+            <if test="goodsImg != null and goodsImg != ''">
+                goods_img = #{goodsImg},
+            </if>
+            <if test="goodsDetailContent != null and goodsDetailContent != ''">
+                goods_detail_content = #{goodsDetailContent},
+            </if>
+            <if test="originalPrice != null">
+                original_price = #{originalPrice},
+            </if>
+            <if test="sellingPrice != null">
+                selling_price = #{sellingPrice},
+            </if>
+            <if test="stockNum != null">
+                stock_num = #{stockNum},
+            </if>
+            <if test="tag != null and tag != ''">
+                tag = #{tag},
+            </if>
+            <if test="goodsSellStatus != null">
+                goods_sell_status = #{goodsSellStatus},
+            </if>
+
+        </set>
+        where goods_id = #{goodsId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wedding_db.goods_info where goods_id = #{goodsId}
+    </delete>
+
+    <select id="queryAllCount" resultType="java.lang.Integer">
+        select count(*) from wedding_db.goods_info
+    </select>
+
+</mapper>

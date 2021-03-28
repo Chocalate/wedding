@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>商品修改 - 婚礼策划后台管理系统</title>
+    <!--: include("/import.html"){} -->
+    <style>
+        img {
+            width: 100%;
+            height: 100%;
+        }
+        .img {
+            width: 75px;
+            height: 75px;
+            margin: 10px 20px 0px 0px
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row layui-col-space5">
+        <div class="grid-demo">
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+                <legend>商品信息</legend>
+            </fieldset>
+            <form class="layui-form layui-form-pane" action="" lay-filter="form">
+                <input type="hidden" name="goodsId">
+                <input id="upload" type="file" style="display: none"/>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="goodsName" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品简介</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="goodsIntro" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品类型</label>
+                    <div class="layui-input-block">
+                        <select id="goodsType" name="goodsTypeId">
+                            <option value="">请选择商品类型</option>
+                        </select>
+                    </div>
+                </div>
+
+
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品价格</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="originalPrice" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">实际售价</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="sellingPrice" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">库存数量</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="stockNum" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品标签</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="tag" lay-verify="required" placeholder="" autocomplete="off"
+                               class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品状态</label>
+                    <div class="layui-input-block">
+                        <select name="lockedFlag" lay-filter="state">
+                            <option value="0">下架</option>
+                            <option value="1">上架</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">商品详细信息</label>
+                    <div class="layui-input-block">
+                        <textarea placeholder="请输入商品详细" name="goodsDetailContent" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+
+                <div class="layui-card">
+                    <div class="layui-card-header">商品图片上传</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row imgs">
+                            <div class="layui-col-xs4 imgAdd img">
+                                <a href="#" class="layui-btn layui-btn-primary"
+                                   style="width: 75px;height: 75px;padding: 20px">
+                                    +
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item" style="text-align: center">
+                    <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="form">修改</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use(['form', 'layer', 'jquery', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , $ = layui.jquery
+            , laydate = layui.laydate;
+
+
+        $(document).ready(function () {
+
+            let goodsId = "${id}";
+            $.ajax({
+                url: "/wedding/admin/good/detail",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify({
+                    "id": goodsId
+                }),
+                success: function (data) {
+                    if (data.succeed) {
+                        var item = data.data;
+                        form.val('form', {
+                            "goodsId": item.goodsId,
+                            "goodsName": item.goodsName,
+                            "goodsIntro": item.goodsIntro,
+                            "goodsTypeId": item.goodsTypeId,
+                            "goodsImg": item.goodsImg,
+                            "goodsDetailContent": item.goodsDetailContent,
+                            "originalPrice": item.originalPrice,
+                            "sellingPrice": item.sellingPrice,
+                            "stockNum": item.stockNum,
+                            "tag": item.tag,
+                            "goodsSellStatus": item.goodsSellStatus
+                        })
+                    } else {
+                        layer.alert(data.msg, {"icon": 2});
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg)
+                }
+            });
+        })
+
+        $(document).ready(function () {
+            $.ajax({
+                url: "/wedding/admin/goodType/getAll",
+                type: 'post',
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    console.log("------data----{}",data);
+                    if (data.succeed) {
+                        var goodTypes = data.data;
+                        for (let i = 0; i < goodTypes.length; i++) {
+                            var goodType = goodTypes[i];
+                                $("#goodsType").append(
+                                    $("<option>").attr("value", goodType.id).html(goodType.type)
+                                )
+
+                        }
+                        form.render('select');
+                    } else {
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        })
+        form.on('submit(form)', function (data) {
+            -
+                layer.confirm("确认修改?", ['确认', '取消'], function () {
+                    $.ajax({
+                        url: "/wedding/admin/good/edit",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json',
+                        data: JSON.stringify(data.field),
+                        success: function (data) {
+                            if (!data.succeed) {
+                                layer.msg("修改失败")
+                            } else {
+                                var index = parent.layer.getFrameIndex(window.name);//获取窗口索引
+                                layer.msg("修改成功", {time: 200}, function () {
+                                    parent.layer.close(index);
+                                    location.reload();
+                                });//关闭弹窗，父页面刷新
+                            }
+                        },
+                        error: function (msg) {
+                            console.log(msg)
+                        }
+                    });
+                });
+
+            return false;
+        });
+
+
+    })
+</script>
+</html>

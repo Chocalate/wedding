@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingnan.wedding.mapper.OrderDao">
+
+    <resultMap type="com.lingnan.wedding.core.entity.Order" id="OrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_id" jdbcType="VARCHAR"/>
+        <result property="uid" column="uid" jdbcType="INTEGER"/>
+        <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="user_phone" jdbcType="VARCHAR"/>
+        <result property="userAddress" column="user_address" jdbcType="VARCHAR"/>
+        <result property="freightPrice" column="freight_price" jdbcType="NUMERIC"/>
+        <result property="totalNum" column="total_num" jdbcType="INTEGER"/>
+        <result property="totalPrice" column="total_price" jdbcType="NUMERIC"/>
+        <result property="totalPostage" column="total_postage" jdbcType="NUMERIC"/>
+        <result property="payPrice" column="pay_price" jdbcType="NUMERIC"/>
+        <result property="deductionPrice" column="deduction_price" jdbcType="NUMERIC"/>
+        <result property="couponId" column="coupon_id" jdbcType="INTEGER"/>
+        <result property="couponPrice" column="coupon_price" jdbcType="NUMERIC"/>
+        <result property="paid" column="paid" jdbcType="INTEGER"/>
+        <result property="payTime" column="pay_time" jdbcType="VARCHAR"/>
+        <result property="payType" column="pay_type" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="refundStatus" column="refund_status" jdbcType="INTEGER"/>
+        <result property="refundReasonWapImg" column="refund_reason_wap_img" jdbcType="VARCHAR"/>
+        <result property="refundReasonWapExplain" column="refund_reason_wap_explain" jdbcType="VARCHAR"/>
+        <result property="refundReason" column="refund_reason" jdbcType="VARCHAR"/>
+        <result property="refundReasonTime" column="refund_reason_time" jdbcType="VARCHAR"/>
+        <result property="refundPrice" column="refund_price" jdbcType="NUMERIC"/>
+        <result property="gainIntegral" column="gain_integral" jdbcType="INTEGER"/>
+        <result property="useIntegral" column="use_integral" jdbcType="INTEGER"/>
+        <result property="backIntegral" column="back_integral" jdbcType="INTEGER"/>
+        <result property="mark" column="mark" jdbcType="VARCHAR"/>
+        <result property="isDel" column="is_del" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderMap">
+        select
+          id, order_id, uid, real_name, user_phone, user_address, freight_price, total_num, total_price, total_postage, pay_price, deduction_price, coupon_id, coupon_price, paid, pay_time, pay_type, create_time, status, refund_status, refund_reason_wap_img, refund_reason_wap_explain, refund_reason, refund_reason_time, refund_price, gain_integral, use_integral, back_integral, mark, is_del
+        from wedding_db.order
+        where id = #{id}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryAllCount" resultType="java.lang.Integer">
+        select
+         count(*) from wedding_db.order
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderMap">
+        select
+          id, order_id, uid, real_name, user_phone, user_address, freight_price, total_num, total_price, total_postage, pay_price, deduction_price, coupon_id, coupon_price, paid, pay_time, pay_type, create_time, status, refund_status, refund_reason_wap_img, refund_reason_wap_explain, refund_reason, refund_reason_time, refund_price, gain_integral, use_integral, back_integral, mark, is_del
+        from wedding_db.order
+        <where>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+        </where>
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrderMap">
+        select
+          id, order_id, uid, real_name, user_phone, user_address, freight_price, total_num, total_price, total_postage, pay_price, deduction_price, coupon_id, coupon_price, paid, pay_time, pay_type, create_time, status, refund_status, refund_reason_wap_img, refund_reason_wap_explain, refund_reason, refund_reason_time, refund_price, gain_integral, use_integral, back_integral, mark, is_del
+        from wedding_db.order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="orderId != null and orderId != ''">
+                and order_id = #{orderId}
+            </if>
+            <if test="uid != null">
+                and uid = #{uid}
+            </if>
+            <if test="realName != null and realName != ''">
+                and real_name = #{realName}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                and user_phone = #{userPhone}
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                and user_address = #{userAddress}
+            </if>
+            <if test="freightPrice != null">
+                and freight_price = #{freightPrice}
+            </if>
+            <if test="totalNum != null">
+                and total_num = #{totalNum}
+            </if>
+            <if test="totalPrice != null">
+                and total_price = #{totalPrice}
+            </if>
+            <if test="totalPostage != null">
+                and total_postage = #{totalPostage}
+            </if>
+            <if test="payPrice != null">
+                and pay_price = #{payPrice}
+            </if>
+            <if test="deductionPrice != null">
+                and deduction_price = #{deductionPrice}
+            </if>
+            <if test="couponId != null">
+                and coupon_id = #{couponId}
+            </if>
+            <if test="couponPrice != null">
+                and coupon_price = #{couponPrice}
+            </if>
+            <if test="paid != null">
+                and paid = #{paid}
+            </if>
+            <if test="payTime != null">
+                and pay_time = #{payTime}
+            </if>
+            <if test="payType != null and payType != ''">
+                and pay_type = #{payType}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="refundStatus != null">
+                and refund_status = #{refundStatus}
+            </if>
+            <if test="refundReasonWapImg != null and refundReasonWapImg != ''">
+                and refund_reason_wap_img = #{refundReasonWapImg}
+            </if>
+            <if test="refundReasonWapExplain != null and refundReasonWapExplain != ''">
+                and refund_reason_wap_explain = #{refundReasonWapExplain}
+            </if>
+            <if test="refundReason != null and refundReason != ''">
+                and refund_reason = #{refundReason}
+            </if>
+            <if test="refundReasonTime != null">
+                and refund_reason_time = #{refundReasonTime}
+            </if>
+            <if test="refundPrice != null">
+                and refund_price = #{refundPrice}
+            </if>
+            <if test="gainIntegral != null">
+                and gain_integral = #{gainIntegral}
+            </if>
+            <if test="useIntegral != null">
+                and use_integral = #{useIntegral}
+            </if>
+            <if test="backIntegral != null">
+                and back_integral = #{backIntegral}
+            </if>
+            <if test="mark != null and mark != ''">
+                and mark = #{mark}
+            </if>
+            <if test="isDel != null">
+                and is_del = #{isDel}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into wedding_db.order(order_id, uid, real_name, user_phone, user_address, freight_price, total_num, total_price, total_postage, pay_price, deduction_price, coupon_id, coupon_price, paid, pay_time, pay_type, create_time, status, refund_status, refund_reason_wap_img, refund_reason_wap_explain, refund_reason, refund_reason_time, refund_price, gain_integral, use_integral, back_integral, mark, is_del)
+        values (#{orderId}, #{uid}, #{realName}, #{userPhone}, #{userAddress}, #{freightPrice}, #{totalNum}, #{totalPrice}, #{totalPostage}, #{payPrice}, #{deductionPrice}, #{couponId}, #{couponPrice}, #{paid}, #{payTime}, #{payType}, #{createTime}, #{status}, #{refundStatus}, #{refundReasonWapImg}, #{refundReasonWapExplain}, #{refundReason}, #{refundReasonTime}, #{refundPrice}, #{gainIntegral}, #{useIntegral}, #{backIntegral}, #{mark}, #{isDel})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wedding_db.order
+        <set>
+            <if test="orderId != null and orderId != ''">
+                order_id = #{orderId},
+            </if>
+            <if test="uid != null">
+                uid = #{uid},
+            </if>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName},
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                user_phone = #{userPhone},
+            </if>
+            <if test="userAddress != null and userAddress != ''">
+                user_address = #{userAddress},
+            </if>
+            <if test="freightPrice != null">
+                freight_price = #{freightPrice},
+            </if>
+            <if test="totalNum != null">
+                total_num = #{totalNum},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice},
+            </if>
+            <if test="totalPostage != null">
+                total_postage = #{totalPostage},
+            </if>
+            <if test="payPrice != null">
+                pay_price = #{payPrice},
+            </if>
+            <if test="deductionPrice != null">
+                deduction_price = #{deductionPrice},
+            </if>
+            <if test="couponId != null">
+                coupon_id = #{couponId},
+            </if>
+            <if test="couponPrice != null">
+                coupon_price = #{couponPrice},
+            </if>
+            <if test="paid != null">
+                paid = #{paid},
+            </if>
+            <if test="payTime != null">
+                pay_time = #{payTime},
+            </if>
+            <if test="payType != null and payType != ''">
+                pay_type = #{payType},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="refundStatus != null">
+                refund_status = #{refundStatus},
+            </if>
+            <if test="refundReasonWapImg != null and refundReasonWapImg != ''">
+                refund_reason_wap_img = #{refundReasonWapImg},
+            </if>
+            <if test="refundReasonWapExplain != null and refundReasonWapExplain != ''">
+                refund_reason_wap_explain = #{refundReasonWapExplain},
+            </if>
+            <if test="refundReason != null and refundReason != ''">
+                refund_reason = #{refundReason},
+            </if>
+            <if test="refundReasonTime != null">
+                refund_reason_time = #{refundReasonTime},
+            </if>
+            <if test="refundPrice != null">
+                refund_price = #{refundPrice},
+            </if>
+            <if test="gainIntegral != null">
+                gain_integral = #{gainIntegral},
+            </if>
+            <if test="useIntegral != null">
+                use_integral = #{useIntegral},
+            </if>
+            <if test="backIntegral != null">
+                back_integral = #{backIntegral},
+            </if>
+            <if test="mark != null and mark != ''">
+                mark = #{mark},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wedding_db.order where id = #{id}
+    </delete>
+
+</mapper>
