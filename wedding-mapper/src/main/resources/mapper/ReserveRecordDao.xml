@@ -4,30 +4,56 @@
 
     <resultMap type="com.lingnan.wedding.core.entity.ReserveRecord" id="ReserveRecordMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_id" jdbcType="VARCHAR"/>
         <result property="account" column="account" jdbcType="VARCHAR"/>
         <result property="goodsId" column="goods_id" jdbcType="VARCHAR"/>
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
-        <result property="reserveTime" column="reserve_time" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="VARCHAR"/>
+        <result property="endTime" column="end_time" jdbcType="VARCHAR"/>
         <result property="getPersonName" column="get_person_name" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
-        <result property="adressid" column="adressId" jdbcType="INTEGER"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
         <result property="flag" column="flag" jdbcType="INTEGER"/>
         <result property="clientId" column="client_id" jdbcType="INTEGER"/>
-        <result property="progressid" column="progressId" jdbcType="INTEGER"/>
+        <result property="progressId" column="progressId" jdbcType="INTEGER"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
         <result property="statusName" column="status_name" jdbcType="VARCHAR"/>
+        <result property="goodsImg" column="goods_img" jdbcType="VARCHAR"/>
+        <result property="goodsIntro" column="goods_intro" jdbcType="VARCHAR"/>
+        <result property="sellingPrice" column="selling_price" jdbcType="VARCHAR"/>
+        <result property="originalPrice" column="original_price" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ReserveRecordMap">
         select
-         r.*, g.goods_name, u.account, t.status_name,CONCAT(a.province,a.city,a.district,a.detail) as address
+         r.*, g.goods_name, u.account, t.status_name
         from wedding_db.reserve_record r
          left join wedding_db.client_user u on u.id = r.client_id
         left join wedding_db.order_type t on r.progressId = t.id
         left join wedding_db.goods_info g on g.goods_id = r.goods_id
         left join wedding_db.user_address a on a.id = r.adressId
         where r.id = #{id}
+    </select>
+
+
+    <!--查询预约-->
+    <select id="queryReserve" resultMap="ReserveRecordMap">
+        select
+        r.*,g.goods_id,g.goods_name,g.goods_img,g.goods_intro,g.original_price,g.selling_price,g.stock_num,t.status_name
+        from wedding_db.reserve_record r
+        left join wedding_db.goods_info g on g.goods_id = r.goods_id
+        left join wedding_db.order_type t on t.id = r.progressId
+        where r.client_id = #{userId}
+    </select>
+
+    <!--查看预约进度-->
+    <select id="queryByStateName" resultType="java.lang.Integer">
+        select
+         progressId
+       from wedding_db.reserve_record
+      where id = #{id}
     </select>
 
     <!--查询指定行数据-->
@@ -52,7 +78,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ReserveRecordMap">
         select
-          id, goods_id, reserve_time, get_person_name, phone, adressId, create_time, flag, client_id, progressId
+          id, goods_id, start_time,end_time, get_person_name, phone, address, create_time, flag, client_id, progressId
         from wedding_db.reserve_record
         <where>
             <if test="id != null">
@@ -61,8 +87,11 @@
             <if test="goodsId != null and goodsId != ''">
                 and goods_id = #{goodsId}
             </if>
-            <if test="reserveTime != null and reserveTime != ''">
-                and reserve_time = #{reserveTime}
+            <if test="startTime != null and startTime != ''">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time = #{endTime}
             </if>
             <if test="getPersonName != null and getPersonName != ''">
                 and get_person_name = #{getPersonName}
@@ -70,8 +99,8 @@
             <if test="phone != null and phone != ''">
                 and phone = #{phone}
             </if>
-            <if test="adressid != null">
-                and adressId = #{adressid}
+            <if test="address != null">
+                and address = #{address}
             </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
@@ -82,16 +111,16 @@
             <if test="clientId != null">
                 and client_id = #{clientId}
             </if>
-            <if test="progressid != null">
-                and progressId = #{progressid}
+            <if test="progressId != null">
+                and progressId = #{progressId}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into wedding_db.reserve_record(goods_id, reserve_time, get_person_name, phone, adressId, create_time, flag, client_id, progressId)
-        values (#{goodsId}, #{reserveTime}, #{getPersonName}, #{phone}, #{adressid}, #{createTime}, #{flag}, #{clientId}, #{progressid})
+        insert into wedding_db.reserve_record(goods_id, start_time,end_time, get_person_name, phone, address, create_time, flag, client_id, progressId)
+        values (#{goodsId}, #{startTime}, #{endTime},#{getPersonName}, #{phone}, #{address}, #{createTime}, #{flag}, #{clientId}, #{progressId})
     </insert>
 
     <!--通过主键修改数据-->
@@ -101,8 +130,11 @@
             <if test="goodsId != null and goodsId != ''">
                 goods_id = #{goodsId},
             </if>
-            <if test="reserveTime != null and reserveTime != ''">
-                reserve_time = #{reserveTime},
+            <if test="startTime != null and startTime != ''">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time = #{endTime}
             </if>
             <if test="getPersonName != null and getPersonName != ''">
                 get_person_name = #{getPersonName},
@@ -110,8 +142,8 @@
             <if test="phone != null and phone != ''">
                 phone = #{phone},
             </if>
-            <if test="adressid != null">
-                adressId = #{adressid},
+            <if test="address != null">
+                adressId = #{address},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime},
@@ -122,8 +154,8 @@
             <if test="clientId != null">
                 client_id = #{clientId},
             </if>
-            <if test="progressid != null">
-                progressId = #{progressid},
+            <if test="progressId != null">
+                progressId = #{progressId},
             </if>
         </set>
         where id = #{id}

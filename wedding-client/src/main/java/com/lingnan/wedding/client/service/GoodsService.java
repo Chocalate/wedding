@@ -16,4 +16,6 @@ public interface GoodsService {
     Map<String, List<GoodsInfoVO>> searchHot();
 
     Map<String, List<GoodsInfoVO>> searchGoodsByName(GoodsInfo goodsInfo);
+
+    Map<String,GoodsInfo>  searchGoodsById(Integer id);
 }

@@ -14,16 +14,23 @@ import java.io.Serializable;
 @Data
 public class ReserveRecord implements Serializable {
     private static final long serialVersionUID = 841839304735831445L;
-    
+
     private Integer id;
     /**
     * 预定商品id
     */
+    private String orderId;
+
     private String goodsId;
     /**
-    * 预约服务时间
+    * 开始服务时间
     */
-    private String reserveTime;
+    private String startTime;
+
+    /**
+     * 结束服务时间
+     */
+    private String endTime;
     /**
     * 收货人名字
     */
@@ -35,11 +42,16 @@ public class ReserveRecord implements Serializable {
     /**
     * 收货地址
     */
-    private Integer adressid;
+    private String address;
     /**
     * 生成时间
     */
     private String createTime;
+
+    /**
+     * 修改时间
+     */
+    private String updateTime;
     /**
     * 订单状态id
     */
@@ -51,7 +63,7 @@ public class ReserveRecord implements Serializable {
     /**
     * 预约进度
     */
-    private Integer progressid;
+    private Integer progressId;
 
     private String account;
 
@@ -59,7 +71,16 @@ public class ReserveRecord implements Serializable {
 
     private String statusName;
 
-    private String address;
+    private String goodsImg;
+
+    private String goodsIntro;
+
+    private String sellingPrice;
+
+    private String originalPrice;
+
+    private Integer num;
+
 
 
 

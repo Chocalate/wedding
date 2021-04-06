@@ -4,7 +4,7 @@ spring:
   application:
     name: wedding-client
   mvc:
-    static-path-pattern: static/**
+    static-path-pattern: /static/**
     view:
       prefix: /WEB-INF/views
       suffix: .html

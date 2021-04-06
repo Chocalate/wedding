@@ -35,8 +35,12 @@ public class GoodsController {
 
     @RequestMapping("/searchGoodsByName")
     public ResultVO searchGoodsByName(@RequestBody GoodsInfo goodsInfo){
-        logger.info("-----goodsInfo---{}",goodsInfo);
         return ResultVOUtil.success(goodsService.searchGoodsByName(goodsInfo));
+    }
+    @RequestMapping("/searchGoodsById/{id}")
+    public ResultVO searchGoodsById(@PathVariable("id") String id){
+        return ResultVOUtil.success(goodsService.searchGoodsById(Integer.valueOf(id)));
+
     }
 
 }

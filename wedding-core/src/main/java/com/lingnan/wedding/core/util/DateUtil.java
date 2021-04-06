@@ -15,6 +15,8 @@ public class DateUtil {
 
     private static SimpleDateFormat dateSdf = new SimpleDateFormat("yyyy-MM-dd");
 
+    private static SimpleDateFormat dateSdf1 = new SimpleDateFormat("yyyyMMddHHmmss");
+
     /**
      * 获取当前时间
      *
@@ -53,6 +55,13 @@ public class DateUtil {
      */
     public static String stringDate(Date date){
         return sdf.format(date);
+    }
+
+    /**
+     * 日期转字符串
+     */
+    public static String dateToString(Date date){
+        return dateSdf1.format(date);
     }
 
 }

@@ -47,6 +47,14 @@ public class GoodsServiceImpl implements GoodsService {
         return map;
     }
 
+    @Override
+    public Map<String,GoodsInfo> searchGoodsById(Integer id) {
+        Map<String,GoodsInfo> map = new LinkedHashMap<>();
+        GoodsInfo goodsInfo = goodsInfoDao.queryById(id);
+        map.put("goodsList",goodsInfo);
+        return map;
+    }
+
 public List<GoodsInfoVO> getGoodInfoVo( List<GoodsInfo> goodsInfoList){
     List<GoodsInfoVO> goodsInfoVOList = goodsInfoList.stream().map(
             e -> new GoodsInfoVO(

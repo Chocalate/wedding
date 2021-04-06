@@ -27,7 +27,9 @@
         where goods_id = #{goodsId}
     </select>
 
-    <!--查询单个-->
+
+
+    <!--查询热门商品-->
     <select id="searchHot" resultMap="GoodsInfoMap">
         select
          *
@@ -36,7 +38,7 @@
         limit 20
     </select>
 
-    <!--查询单个-->
+    <!--查询类型商品-->
     <select id="findAllByGoodsType" resultMap="GoodsInfoMap">
         select
           goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status

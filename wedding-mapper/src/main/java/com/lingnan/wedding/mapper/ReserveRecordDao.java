@@ -45,7 +45,7 @@ public interface ReserveRecordDao {
      * @param reserveRecord 实例对象
      * @return 影响行数
      */
-    int insert(ReserveRecord reserveRecord);
+    boolean insert(ReserveRecord reserveRecord);
 
     /**
      * 修改数据
@@ -53,7 +53,7 @@ public interface ReserveRecordDao {
      * @param reserveRecord 实例对象
      * @return 影响行数
      */
-    int update(ReserveRecord reserveRecord);
+    boolean update(ReserveRecord reserveRecord);
 
     /**
      * 通过主键删除数据
@@ -61,10 +61,15 @@ public interface ReserveRecordDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(Integer id);
+    boolean deleteById(Integer id);
 
     Integer queryAllCount();
 
     List<OrderType> queryOrderTypes();
+
+    List<ReserveRecord> queryReserve(@Param("userId")Integer userId);
+
+    Integer queryByStateName(Integer id);
+
 
 }

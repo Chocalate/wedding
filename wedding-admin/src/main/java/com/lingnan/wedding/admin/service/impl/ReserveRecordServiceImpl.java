@@ -75,7 +75,7 @@ public class ReserveRecordServiceImpl implements ReserveRecordService {
      */
     @Override
     public boolean deleteById(Integer id) {
-        return this.reserveRecordDao.deleteById(id) > 0;
+        return this.reserveRecordDao.deleteById(id);
     }
 
     @Override
