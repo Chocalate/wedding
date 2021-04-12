@@ -5,10 +5,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.lingnan.wedding.client.service.CardService;
 import com.lingnan.wedding.client.util.ResultVOUtil;
+import com.lingnan.wedding.client.util.ShiroUtil;
 import com.lingnan.wedding.client.vo.CardInfoVo;
 import com.lingnan.wedding.client.vo.ResultVO;
+import com.lingnan.wedding.core.entity.ClientUser;
 import com.lingnan.wedding.core.entity.GoodsInfo;
 import com.lingnan.wedding.core.entity.ShopCart;
+import org.apache.shiro.SecurityUtils;
 import org.beetl.ext.fn.Json;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,10 +72,14 @@ public class CardController {
         }
 
     @RequestMapping("/addCart")
-    public ResultVO addCart(@RequestBody Map<String, GoodsInfo> goodsList){
+
+    public ResultVO addCart(@RequestBody Map<String,Map<String,Integer>> params){
         try {
-            logger.info("goodsId-------{}",goodsList.get("goodsList"));
-            return ResultVOUtil.success(cardService.insert(goodsList.get("goodsList")));
+            logger.info("params-----{}",params);
+            Integer goodsId = params.get("params").get("goodsList");
+            Integer userId = params.get("params").get("userId");
+            boolean insert = cardService.insert(goodsId, userId);
+            return ResultVOUtil.success(insert);
         }catch (Exception e){
             logger.info("ddddddddd{}",e);
             return ResultVOUtil.error(e.getMessage());

@@ -2,10 +2,13 @@ package com.lingnan.wedding.client.service.impl;
 
 import com.lingnan.wedding.client.controller.CardController;
 import com.lingnan.wedding.client.service.CardService;
+import com.lingnan.wedding.client.util.ShiroUtil;
 import com.lingnan.wedding.client.vo.CardInfoVo;
 import com.lingnan.wedding.core.entity.GoodsInfo;
 import com.lingnan.wedding.core.entity.ShopCart;
 import com.lingnan.wedding.mapper.ShopCartDao;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,13 +61,12 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public boolean insert(GoodsInfo goodsList) {
+    public boolean insert(Integer goodsList,Integer userId) {
         ShopCart shopCart = new ShopCart();
         boolean flag;
-        shopCart.setGoodsId(goodsList.getGoodsId());
-        shopCart.setUserId(120);
+        shopCart.setGoodsId(goodsList);
+        shopCart.setUserId(userId);
         List<ShopCart> shopCarts = shopCartDao.queryAll(shopCart);
-
         if(shopCarts.size()==0){
             shopCart.setCreateTime(new Date());
             shopCart.setModifyTime(new Date());

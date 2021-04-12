@@ -19,6 +19,7 @@
         <result property="level" column="level" jdbcType="INTEGER"/>
         <result property="addres" column="addres" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="permission" column="permission"/>
         <result property="sex" column="sex" jdbcType="INTEGER"/>
     </resultMap>
 
@@ -41,10 +42,11 @@
 
     <!--查询单个-->
     <select id="queryByName" resultMap="ClientUserMap">
-        select
-         *
-        from wedding_db.client_user
-        where account = #{account}
+        select u.*,GROUP_CONCAT(p.permission) permission, role.role from wedding_db.client_user u
+       left join wedding_db.role role ON role.id = u.role_id
+       left join wedding_db.permission p ON role.id = p.roleId
+       where account = #{account}
+       group by u.account
     </select>
 
     <!--查询指定行数据-->

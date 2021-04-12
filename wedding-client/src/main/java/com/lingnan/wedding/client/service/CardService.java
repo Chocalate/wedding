@@ -21,5 +21,5 @@ public interface CardService {
     boolean batchDelete(List<Integer> ids,Integer userId);
 
 
-    boolean insert(GoodsInfo goodsList);
+    boolean insert(Integer goodsList,Integer userId);
 }

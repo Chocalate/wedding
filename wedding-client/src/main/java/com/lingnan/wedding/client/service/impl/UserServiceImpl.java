@@ -40,4 +40,11 @@ public class UserServiceImpl implements UserService {
         user.setCreateTime(DateUtil.stringDate(new Date()));
         return clientUserDao.insert(user);
     }
+
+    @Override
+    public ClientUser queryByName(String account) {
+        return clientUserDao.queryByName(account);
+    }
+
+
 }

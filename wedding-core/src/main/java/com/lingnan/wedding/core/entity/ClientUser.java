@@ -86,4 +86,6 @@ public class ClientUser implements Serializable {
     */
     private Integer sex;
 
+
+    private String permission;
 }

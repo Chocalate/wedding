@@ -25,8 +25,6 @@ public class GoodsController {
     @Resource
     private GoodsService goodsService;
 
-    @Resource
-    private GoodsInfoDao goodsInfoDao;
 
     @RequestMapping("/searchHot")
     public ResultVO searchHot(){

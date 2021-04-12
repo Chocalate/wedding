@@ -38,6 +38,7 @@ public class SystemUserRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String name = token.getUsername();
+
         SystemUser systemUser = systemUserService.queryByName(name);
         log.info("SystemUser..........{}",systemUser);
 

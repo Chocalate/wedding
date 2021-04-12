@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 public class Advisement implements Serializable {
     private static final long serialVersionUID = 114785359798877179L;
-    
+
     private Integer id;
     /**
     * 商品名称

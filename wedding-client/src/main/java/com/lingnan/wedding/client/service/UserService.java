@@ -17,4 +17,7 @@ public interface UserService {
     Map<String, List<ClientUser>> login(ClientUser clientUser);
 
     int insert(ClientUser user);
+
+    ClientUser queryByName(String name);
+
 }
