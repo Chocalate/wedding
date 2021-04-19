@@ -26,7 +26,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("wedding/admin/order")
+@RequestMapping("/wedding/admin/order")
 public class OrderController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class);

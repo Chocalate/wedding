@@ -43,6 +43,11 @@ public class ReserveRecordServiceImpl implements ReserveRecordService {
         return this.reserveRecordDao.queryAllByLimit(offset, limit,account,statusName);
     }
 
+    @Override
+    public List<ReserveRecord> queryBusinessRevByLimit(int offset, int limit,String statusName,Integer businessId) {
+        return reserveRecordDao.queryBusinessRevByLimit(offset,limit,statusName,businessId);
+    }
+
     /**
      * 新增数据
      *
@@ -81,6 +86,11 @@ public class ReserveRecordServiceImpl implements ReserveRecordService {
     @Override
     public Integer queryAllCount() {
         return reserveRecordDao.queryAllCount();
+    }
+
+    @Override
+    public Integer queryBusinessRevCount(String statusName,Integer businessId) {
+        return reserveRecordDao.queryBusinessRevCount(statusName,businessId);
     }
 
     @Override

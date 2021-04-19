@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户预约管理 - 婚礼策划后台管理系统</title>
+    <title>预约管理 - 婚礼策划后台管理系统</title>
     <!--: include("/import.html"){} -->
 </head>
 <body>
@@ -26,10 +26,15 @@
 </blockquote>
 <table class="layui-hide" id="table" lay-filter="table"></table>
 
-<script type="text/html" id="outerBar">
+<!--<script type="text/html" id="outerBar">
     <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">删除</a>
+</script>-->
+
+<script type="text/html" id="expressRowBar">
+    <a class="layui-btn layui-btn-sm layui-btn" lay-event="serviceOver">结束服务</a>
+    <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="detail">详情</a>
 </script>
+
 </body>
 <script>
     layui.use(['table', 'jquery','form'], function () {
@@ -40,6 +45,7 @@
         table.render({
             elem: '#table',
             url: '/wedding/admin/reserve/queryAll',
+            where: {statusName: '服务进行中'},
             toolbar: '#outerBar',
             defaultToolbar: ['filter', 'exports', 'print', {
                 title: '提示'
@@ -54,7 +60,7 @@
                 [{type: 'radio', fixed: 'left'}, {
                     field: 'id',
                     title: 'ID',
-                    width: 150,
+                    width: 100,
                     sort: true,
                     fixed: 'left'
                 }, {
@@ -66,17 +72,17 @@
                     title: '预约人姓名',
                     width: 200
                 }, {
+                    field: 'createTime',
+                    title: '创建时间',
+                    width: 200,
+                    sort: true
+                },{
                     field: 'statusName',
                     title: '预约状态',
                     width: 150,
                     sort: true
-                },{
-                    field: 'createTime',
-                    title: '创建时间',
-                    width: 200,
-                    fixed: 'right',
-                    sort: true
-                }
+                },
+                    {fixed: 'right', title: '操作', toolbar: '#expressRowBar', align: 'center', width: '150'}
                 ]
             ],
             id: 'Reload' //表格重载的id
@@ -126,6 +132,45 @@
 
         })
 
+        //监听行工具事件
+        table.on('tool(table)', function(obj){
+            var data = {};
+            console.log(obj.data)
+
+            if(obj.event === 'serviceOver'){
+                layer.confirm('确定已完成服务？', function(index){
+                    data.progressId = 7
+                    data.id = obj.data.id
+                     UpadateStatus(data);
+                });
+            }
+        });
+
+        function UpadateStatus(data) {
+            console.log("1111111111{}",data)
+            $.ajax({
+                url: "/wedding/admin/reserve/edit",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (!data.succeed) {
+                        layer.msg("服务失败")
+                    } else {
+                        var index = parent.layer.getFrameIndex(window.name);//获取窗口索引
+                        layer.msg("结束服务", {time: 200}, function () {
+                            parent.layer.close(index);
+                            location.reload();
+                        });//关闭弹窗，父页面刷新
+                    }
+                },
+                error: function (msg) {
+                    console.log(msg)
+                }
+            });
+        };
+
         //头工具栏事件
         table.on('toolbar(table)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
@@ -135,34 +180,6 @@
                 return;
             }
             switch (obj.event) {
-                case 'add':
-                    layer.open({
-                        type: 2,
-                        title: "添加商品",
-                        shadeClose: true,
-                        shade: 0.2,
-                        maxmin: true, //开启最大化最小化按钮
-                        area: ['100%', '100%'],
-                        content: "/wedding/admin/page/reserveRecord/add",
-                        end: function () {
-                            $(".layui-laypage-btn").click();
-                        }
-                    });
-                    break;
-                case 'edit':
-                    layer.open({
-                        type: 2,
-                        title: "修改商品信息",
-                        shadeClose: true,
-                        shade: 0.2,
-                        maxmin: true, //开启最大化最小化按钮
-                        area: ['50%', '75%'],
-                        content: "/wedding/admin/page/reserveRecord/edit?id=" + data.goodsId,
-                        end: function () {
-                            $(".layui-laypage-btn").click();
-                        }
-                    });
-                    break;
                 case 'detail':
                     layer.open({
                         type: 2,
@@ -177,7 +194,7 @@
                         }
                     });
                     break;
-                case 'del':
+                /*case 'del':
                     layer.confirm("确认删除该记录?", ['确认', '取消'], function () {
                         $.ajax({
                             url: "/wedding/admin/reserve/del",
@@ -195,14 +212,13 @@
                             }
                         });
                     });
-                    break;
+                    break;*/
                 //自定义头工具栏右侧图标 - 提示
                 case 'LAYTABLE_TIPS':
                     layer.msg('这是工具栏右侧自定义的一个图标按钮');
                     break;
             }
         });
-
     });
 
 

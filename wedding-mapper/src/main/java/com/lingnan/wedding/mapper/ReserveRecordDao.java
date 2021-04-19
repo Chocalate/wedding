@@ -31,6 +31,10 @@ public interface ReserveRecordDao {
     List<ReserveRecord> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit,@Param("account") String account,@Param("statusName")String statusName);
 
 
+    List<ReserveRecord> queryBusinessRevByLimit(@Param("offset")int offset, @Param("limit")int limit,@Param("statusName")String statusName,@Param("id")Integer businessId);
+
+    Integer queryBusinessRevCount(@Param("statusName")String statusName,@Param("id")Integer businessId);
+
     /**
      * 通过实体作为筛选条件查询
      *

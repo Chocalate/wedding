@@ -33,7 +33,6 @@
          left join wedding_db.client_user u on u.id = r.client_id
         left join wedding_db.order_type t on r.progressId = t.id
         left join wedding_db.goods_info g on g.goods_id = r.goods_id
-        left join wedding_db.user_address a on a.id = r.adressId
         where r.id = #{id}
     </select>
 
@@ -64,15 +63,32 @@
         left join wedding_db.client_user u on u.id = r.client_id
         left join wedding_db.order_type t on r.progressId = t.id
         left join wedding_db.goods_info g on g.goods_id = r.goods_id
-        <where>
-            <if test="account != null and account != ''">
-                and u.account = #{account}
-            </if>
-            <if test="statusName != null and statusName != ''">
-                and t.status_name = #{statusName}
-            </if>
-        </where>
         limit #{offset}, #{limit}
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryBusinessRevByLimit" resultMap="ReserveRecordMap">
+        select
+        r.*,g.goods_name, b.username, t.status_name,u.account
+        from wedding_db.reserve_record r
+        left join wedding_db.goods_info g on g.goods_id = r.goods_id
+        left join wedding_db.client_user u on u.id = r.client_id
+        left join wedding_db.business b on b.id = g.business_id
+        left join wedding_db.order_type t on r.progressId = t.id
+        where t.status_name = #{statusName} and b.id = #{id}
+        limit #{offset}, #{limit}
+    </select>
+
+    <select id="queryBusinessRevCount" resultType="java.lang.Integer">
+       select
+        count(*)
+        from wedding_db.reserve_record r
+        left join wedding_db.goods_info g on g.goods_id = r.goods_id
+        left join wedding_db.business u on u.id = g.business_id
+        left join wedding_db.business b on b.id = g.business_id
+        left join wedding_db.order_type t on r.progressId = t.id
+         where t.status_name = #{statusName} and b.id = #{id}
     </select>
 
     <!--通过实体作为筛选条件查询-->

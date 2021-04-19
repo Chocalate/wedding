@@ -8,7 +8,6 @@ spring:
       prefix: /WEB-INF/views
       suffix: .html
     static-path-pattern: /static/**
-
   #配置日志 /logs 会将日志写到文件中
 logging:
   config: classpath:logback-spring.xml

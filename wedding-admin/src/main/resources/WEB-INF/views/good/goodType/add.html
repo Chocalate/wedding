@@ -39,7 +39,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">类型介绍</label>
                     <div class="layui-input-block">
-                        <input type="number" name="typeInfo" lay-verify="required" placeholder="请输入" autocomplete="off"
+                        <input type="text" name="typeInfo" lay-verify="required" placeholder="请输入" autocomplete="off"
                                class="layui-input">
                     </div>
                 </div>
@@ -59,7 +59,6 @@
             , $ = layui.jquery
             , laydate = layui.laydate;
 
-
         form.on('submit(form)', function (data) {
             layer.confirm("确认添加?", ['确认', '取消'], function () {
                 $.ajax({
@@ -67,7 +66,7 @@
                     type: "POST",
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: JSON.stringify(typeData(data.field)),
+                    data: JSON.stringify(data.field),
                     success: function (data) {
                         if (!data.succeed) {
                             layer.msg("添加失败")

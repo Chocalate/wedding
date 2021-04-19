@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>首页 - 婚礼策划后台管理系统</title>
+    <title>首页 - 婚礼策划商家后台管理系统</title>
     <!--: include("import.html"){} -->
     <style>
         iframe {
@@ -22,13 +22,13 @@
 <body>
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">婚礼策划后台管理系统</div>
+        <div class="layui-logo">婚礼策划商家后台管理系统</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
                     <img src="/static/imgs/003.jpg" class="layui-nav-img">
-                        lily
+                    mama
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="javascript:;" id="info">重置密码</a></dd>
@@ -42,25 +42,7 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="left">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">系统管理</a>
-                    <dl class="layui-nav-child">
 
-                        <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/role/index" lay-id="role">角色管理</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/loginLog/index" lay-id="loginLog">登录日志</a>
-                        </dd>
-                        <!--<dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/uploadLog/index"
-                               lay-id="uploadLog">上传日志管理</a>
-                        </dd>-->
-                        <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/advisement/index" lay-id="hotel">首页封面管理</a>
-                        </dd>
-                    </dl>
-                </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">商品管理</a>
                     <dl class="layui-nav-child">
@@ -76,50 +58,30 @@
                         </dd>
                     </dl>
                 </li>
+
                 <li class="layui-nav-item">
-                    <a href="javascript:;">用户管理</a>
+                    <a href="javascript:;">预约管理</a>
                     <dl class="layui-nav-child">
-                       <!-- <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/systemuser/index" lay-id="systemuser">用户管理</a>
-                        </dd>-->
                         <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/clientUser/index" lay-id="userInfo">用户信息管理</a>
+                            <a href="javascript:;" lay-url="/wedding/admin/page/reserveRecord/jiedan" lay-id="jiedan">接单管理</a>
                         </dd>
                         <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/reserveRecord/index"
-                               lay-id="order_record">用户预约管理</a>
+                            <a href="javascript:;" lay-url="/wedding/admin/page/reserveRecord/service" lay-id="service">服务管理</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" lay-url="/wedding/admin/page/reserveRecord/serviceOver" lay-id="serviceOver">服务完结管理</a>
                         </dd>
                     </dl>
                 </li>
 
-               <!-- <li class="layui-nav-item">
-                    <a href="javascript:;">商家管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/roomType/index"
-                               lay-id="room_type">商家信息管理</a>
-                        </dd>
-
-                        <dd>
-                            <a href="javascript:;" lay-url="/wedding/admin/page/roomType/index"
-                               lay-id="room_type">入驻商家审批管理</a>
-                        </dd>
-                    </dl>
-                </li>-->
-
                 <li class="layui-nav-item">
-                    <dd>
-                        <a href="javascript:;" lay-url="/wedding/admin/page/order/index"
-                           lay-id="room_type">留言管理</a>
-                    </dd>
+
+                        <dd>
+                            <a href="javascript:;" lay-url="/wedding/admin/page/reserveRecord/overOrder" lay-id="waitConfirm">订单管理</a>
+                        </dd>
+
                 </li>
 
-              <!--  <li class="layui-nav-item">
-                    <dd>
-                        <a href="javascript:;" lay-url="/wedding/admin/page/order/index"
-                           lay-id="room_type">订单管理</a>
-                    </dd>
-                </li>-->
 
             </ul>
         </div>
@@ -248,10 +210,9 @@
 
         $(document).ready(function () {
             let initTab = {};
-           // let url = "/wedding/admin/page/loginLog/index";
-            let url = "/wedding/admin/page/loginLog/index";
-            initTab.id = "loginLog";
-            initTab.title = "登录日志";
+            let url = "/wedding/admin/page/good/index";
+            initTab.id = "good";
+            initTab.title = "商品信息";
             initTab.content = "<iframe src='" + url + "' style='width: 100%;height: 100%;'></iframe>";
             tab.add(initTab);
             tab.change(initTab);

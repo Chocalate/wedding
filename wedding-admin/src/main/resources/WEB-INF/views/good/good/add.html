@@ -26,7 +26,6 @@
             </fieldset>
             <form class="layui-form layui-form-pane" action="" lay-filter="form">
              <!--   <input type="hidden" name="hImgs">-->
-                <input id="upload" type="file" style="display: none"/>
 
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品名称</label>
@@ -92,19 +91,17 @@
                     </div>
                 </div>
 
-                <div class="layui-card">
-                    <div class="layui-card-header">商品图片上传</div>
-                    <div class="layui-card-body">
-                        <div class="layui-row imgs">
-                            <div class="layui-col-xs4 imgAdd img">
-                                <a href="#" class="layui-btn layui-btn-primary"
-                                   style="width: 75px;height: 75px;padding: 20px">
-                                    +
-                                </a>
-                            </div>
-                        </div>
+
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test1"><i class="layui-icon"></i>上传图片</button>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" id="demo1"  style="height: 50%;width: 45%">
+                        <p id="demoText"></p>
                     </div>
                 </div>
+
+                <input type="text" id="goodsImg" name="goodsImg" style="display:none">
+
                 <div class="layui-form-item" style="text-align: center">
                     <button class="layui-btn layui-btn-fluid" lay-submit="" lay-filter="form">添加</button>
                 </div>
@@ -114,11 +111,46 @@
 </div>
 </body>
 <script>
-    layui.use(['form', 'layer', 'jquery', 'laydate'], function () {
+    layui.use(['form', 'layer', 'jquery', 'laydate','upload'], function () {
         var form = layui.form
             , layer = layui.layer
-            , $ = layui.jquery
+            , $ = layui.jquery ,
+             upload = layui.upload
             , laydate = layui.laydate;
+
+
+
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#test1'
+            , url: '/wedding/admin/good/upload', //改成您自己的上传接口
+            size: 2000
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#demo1').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                console.log("img{}",res.data)
+                $('#goodsImg').attr('value', res.data);
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
 
 
         $(document).ready(function () {
@@ -148,9 +180,7 @@
             });
         })
 
-
         form.on('submit(form)', function (data) {
--
             layer.confirm("确认添加?", ['确认', '取消'], function () {
                 $.ajax({
                     url: "/wedding/admin/good/add",

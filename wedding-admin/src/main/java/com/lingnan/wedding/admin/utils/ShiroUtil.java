@@ -1,5 +1,6 @@
 package com.lingnan.wedding.admin.utils;
 
+import com.lingnan.wedding.core.entity.Business;
 import com.lingnan.wedding.core.entity.SystemUser;
 import org.apache.catalina.Manager;
 import org.apache.shiro.SecurityUtils;
@@ -125,15 +126,31 @@ public class ShiroUtil {
     }
 
     public static Integer getUserId() {
-        SystemUser user = (SystemUser) getSubject().getPrincipal();
-        return user.getId();
+        if(principal().contains("Business")) {
+            Business business = (Business) getSubject().getPrincipal();
+            return business.getId();
+        }else{
+            SystemUser user = (SystemUser) getSubject().getPrincipal();
+            return user.getId();
+        }
     }
     public static Integer getRoleId() {
-        SystemUser user = (SystemUser) getSubject().getPrincipal();
-        return user.getRoleid();
+        if(principal().contains("Business")){
+            Business business = (Business) getSubject().getPrincipal();
+            return business.getRoleid();
+        }else{
+            SystemUser systemUser = (SystemUser) getSubject().getPrincipal();
+            return systemUser.getRoleid();
+        }
+
     }
     public static String getUserName() {
+        if(principal().contains("SystemUser")) {
         SystemUser user = (SystemUser) getSubject().getPrincipal();
         return user.getUsername();
+        }else{
+            Business business = (Business) getSubject().getPrincipal();
+            return business.getUsername();
+        }
     }
 }

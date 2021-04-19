@@ -2,6 +2,8 @@ package com.lingnan.wedding.admin.service;
 
 import com.lingnan.wedding.core.entity.OrderType;
 import com.lingnan.wedding.core.entity.ReserveRecord;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -29,6 +31,8 @@ public interface ReserveRecordService {
      */
     List<ReserveRecord> queryAllByLimit(int offset, int limit,String account,String statusName);
 
+    List<ReserveRecord> queryBusinessRevByLimit(int offset, int limit,String statusName,Integer businessId);
+
     /**
      * 新增数据
      *
@@ -54,6 +58,8 @@ public interface ReserveRecordService {
     boolean deleteById(Integer id);
 
     Integer queryAllCount();
+
+    Integer queryBusinessRevCount(String statusName,Integer businessId);
 
     List<OrderType> queryOrderTypes();
 }

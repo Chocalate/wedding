@@ -25,7 +25,7 @@
         select
           id, name, content, img_url, business_ower, create_time, is_show
         from wedding_db.advisement
-        where is_show = 1
+        where is_show = 0
     </select>
 
     <!--查询指定行数据-->

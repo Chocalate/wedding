@@ -57,8 +57,8 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">选择角色</label>
 						<div class="layui-input-block">
-							<input type="radio" name="role" value="2" title="商家" checked="">
-							<input type="radio" name="role" value="1" title="管理员">
+							<input type="radio" name="role" value="Business" title="商家" checked="">
+							<input type="radio" name="role" value="SystemUser" title="管理员">
 						</div>
 					</div>
 					<div class="layui-col-sm12 layui-col-md12">
@@ -132,8 +132,15 @@
 							success: function (data) {
 								console.log(data)
 								if (data.succeed) {
-									layer.msg("登录成功,跳转到首页", {"icon": 1})
-									window.location.href = "/wedding/admin/page/index";
+									console.log("当前角色{}",data.data)
+									if(data.data == "Business"){
+										layer.msg("登录成功,跳转到首页", {"icon": 1})
+										window.location.href = "/wedding/admin/page/businessIndex";
+									}else{
+										layer.msg("登录成功,跳转到首页", {"icon": 1})
+										window.location.href = "/wedding/admin/page/index";
+									}
+
 								} else {
 									layer.alert(data.msg, {"icon": 2});
 								}
@@ -148,7 +155,7 @@
 
 
 				//设置轮播主体高度
-				var zyl_login_height = $(window).height()/1.0;
+				var zyl_login_height = $(window).height();
 				var zyl_car_height = $(".zyl_login_height").css("cssText","height:" + zyl_login_height + "px!important");
 
 

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingnan.wedding.mapper.BusinessDao">
+
+    <resultMap type="com.lingnan.wedding.core.entity.Business" id="BusinessMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="salt" column="salt" jdbcType="VARCHAR"/>
+        <result property="roleid" column="roleId" jdbcType="INTEGER"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+        <result property="cardId" column="card_id" jdbcType="VARCHAR"/>
+        <result property="supportImg" column="support_img" jdbcType="VARCHAR"/>
+        <result property="isLocked" column="is_locked" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="permission" column="permission"/>
+    </resultMap>
+
+
+    <!--名称查询单个-->
+    <select id="queryByName" resultMap="BusinessMap">
+       select u.*,GROUP_CONCAT(p.permission) permission, role.role from wedding_db.business u
+       left join wedding_db.role role ON role.id = u.roleId
+       left join wedding_db.permission p ON role.id = p.roleId
+       where username = #{username}
+       group by u.username
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BusinessMap">
+        select
+          id, username, password, salt, roleId, phone, real_name, card_id, support_img, is_locked, create_time
+        from wedding_db.business
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BusinessMap">
+        select
+          id, username, password, salt, roleId, phone, real_name, card_id, support_img, is_locked, create_time
+        from wedding_db.business
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BusinessMap">
+        select
+          id, username, password, salt, roleId, phone, real_name, card_id, support_img, is_locked, create_time
+        from wedding_db.business
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                and password = #{password}
+            </if>
+            <if test="salt != null and salt != ''">
+                and salt = #{salt}
+            </if>
+            <if test="roleid != null">
+                and roleId = #{roleid}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="realName != null and realName != ''">
+                and real_name = #{realName}
+            </if>
+            <if test="cardId != null and cardId != ''">
+                and card_id = #{cardId}
+            </if>
+            <if test="supportImg != null and supportImg != ''">
+                and support_img = #{supportImg}
+            </if>
+            <if test="isLocked != null">
+                and is_locked = #{isLocked}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into wedding_db.business(username, password, salt, roleId, phone, real_name, card_id, support_img, is_locked, create_time)
+        values (#{username}, #{password}, #{salt}, #{roleid}, #{phone}, #{realName}, #{cardId}, #{supportImg}, #{isLocked}, #{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wedding_db.business
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="roleid != null">
+                roleId = #{roleid},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="realName != null and realName != ''">
+                real_name = #{realName},
+            </if>
+            <if test="cardId != null and cardId != ''">
+                card_id = #{cardId},
+            </if>
+            <if test="supportImg != null and supportImg != ''">
+                support_img = #{supportImg},
+            </if>
+            <if test="isLocked != null">
+                is_locked = #{isLocked},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wedding_db.business where id = #{id}
+    </delete>
+
+</mapper>

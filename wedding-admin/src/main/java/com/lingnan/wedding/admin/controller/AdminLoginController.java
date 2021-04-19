@@ -7,6 +7,7 @@ package com.lingnan.wedding.admin.controller;
  **/
 
 import com.alibaba.fastjson.JSONObject;
+import com.lingnan.wedding.admin.config.UserToken;
 import com.lingnan.wedding.admin.utils.ShiroUtil;
 import com.lingnan.wedding.core.vo.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * 登录控制器
@@ -45,20 +47,21 @@ public class AdminLoginController {
      */
     @ResponseBody
     @RequestMapping("login")
-    public Object login(HttpServletRequest request, @RequestBody String jsonBody) {
+    public Object login(HttpServletRequest request, HttpSession session, @RequestBody String jsonBody) {
         try {
             logger.info("-------------登录-------------");
             JSONObject params = (JSONObject) JSONObject.parse(jsonBody);
             String account = params.getString("username");
             String pwd = params.getString("pwd");
-
+            String role = params.getString("role");
             Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(account, pwd);
+            UserToken token = new UserToken(account,pwd,role);
 
             //shiro验证登录
             subject.login(token);
+            session.setAttribute("username",ShiroUtil.getUserName());
             //service.insert(LoginLogFactory.success(ShiroUtil.getUserId()));
-            return Response.success("ok");
+            return Response.success(role);
         } catch (Exception e) {
             //service.insert(LoginLogFactory.error(e.getMessage()));
             logger.error("登录失败：" + e.getMessage());

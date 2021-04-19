@@ -65,6 +65,7 @@ public class GoodsInfo implements Serializable {
 
     private Integer sellNum;
 
+    private Integer businessId;
 
 
 }

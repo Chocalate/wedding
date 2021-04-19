@@ -48,6 +48,13 @@ public class PageController {
         return ModelUtils.createModel(request, "/index");
     }
 
+    /**
+     * 跳转到首页
+     */
+    @RequestMapping("businessIndex")
+    public ModelAndView businessIndex(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/businessIndex");
+    }
 
     /**
      * 跳转到欢迎页面
@@ -234,6 +241,32 @@ public class PageController {
         return result;
     }
 
+
+
+    @RequestMapping("reserveRecord/jiedan")
+    public ModelAndView jieDanIndex(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/business/jiedan");
+    }
+
+    @RequestMapping("reserveRecord/service")
+    public ModelAndView service(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/business/service");
+    }
+
+    @RequestMapping("reserveRecord/serviceOver")
+    public ModelAndView serviceOver(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/business/serviceOver");
+    }
+    @RequestMapping("reserveRecord/waitConfirm")
+    public ModelAndView waitConfirm(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/business/waitConfirm");
+    }
+
+    @RequestMapping("reserveRecord/overOrder")
+    public ModelAndView overOrder(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/business/overOrder");
+    }
+
     /**
      * 跳转到预约管理页面
      */
@@ -241,6 +274,7 @@ public class PageController {
     public ModelAndView reserveRecordIndex(HttpServletRequest request) {
         return ModelUtils.createModel(request, "/clientUser/reserveRecord/index");
     }
+
 
     /**
      * 添加预约管理

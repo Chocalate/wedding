@@ -16,13 +16,14 @@
         <result property="tag" column="tag" jdbcType="VARCHAR"/>
         <result property="goodsSellStatus" column="goods_sell_status" jdbcType="INTEGER"/>
         <result property="sellNum" column="sell_num" jdbcType="INTEGER"/>
+        <result property="businessId" column="business_id" jdbcType="INTEGER"/>
 
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="GoodsInfoMap">
         select
-          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id
         from wedding_db.goods_info
         where goods_id = #{goodsId}
     </select>
@@ -41,14 +42,14 @@
     <!--查询类型商品-->
     <select id="findAllByGoodsType" resultMap="GoodsInfoMap">
         select
-          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id
         from wedding_db.goods_info
         where goods_type_id = #{goodsTypeId}
     </select>
     <!--查询单个-->
     <select id="queryDetail" resultMap="GoodsInfoMap">
         select
-          goods_id, goods_name, goods_intro, t.type, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+          goods_id, goods_name, goods_intro, t.type, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id
         from wedding_db.goods_info info
         left join wedding_db.good_type t
         on  t.id = info.goods_type_id
@@ -58,7 +59,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="GoodsInfoMap">
         select
-          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id
         from wedding_db.goods_info
         <where>
             <if test="goodsName !=null and goodsName != ''">
@@ -74,7 +75,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="GoodsInfoMap">
         select
-          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status
+          goods_id, goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id
         from wedding_db.goods_info
         <where>
             <if test="goodsId != null">
@@ -110,14 +111,18 @@
             <if test="goodsSellStatus != null">
                 and goods_sell_status = #{goodsSellStatus}
             </if>
+            <if test="businessId != null">
+                and business_id = #{businessId}
+            </if>
+
 
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsId" useGeneratedKeys="true">
-        insert into wedding_db.goods_info(goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status)
-        values (#{goodsName}, #{goodsIntro}, #{goodsTypeId}, #{goodsImg}, #{goodsDetailContent}, #{originalPrice}, #{sellingPrice}, #{stockNum}, #{tag}, #{goodsSellStatus})
+        insert into wedding_db.goods_info(goods_name, goods_intro, goods_type_id, goods_img, goods_detail_content, original_price, selling_price, stock_num, tag, goods_sell_status,business_id)
+        values (#{goodsName}, #{goodsIntro}, #{goodsTypeId}, #{goodsImg}, #{goodsDetailContent}, #{originalPrice}, #{sellingPrice}, #{stockNum}, #{tag}, #{goodsSellStatus},#{businessId})
     </insert>
 
     <!--通过主键修改数据-->
@@ -153,6 +158,9 @@
             </if>
             <if test="goodsSellStatus != null">
                 goods_sell_status = #{goodsSellStatus},
+            </if>
+            <if test="businessId != null">
+                and business_id = #{businessId}
             </if>
 
         </set>
