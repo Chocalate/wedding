@@ -91,4 +91,21 @@ public class ReserveOrderServiceImpl implements ReserveOrderService {
         map.put("active",ids);
         return map;
     }
+
+    @Override
+    public boolean cancelReserve(ReserveRecord reserveRecord) {
+        reserveRecord.setFlag(1);
+        reserveRecord.setProgressId(0);
+        return reserveRecordDao.update(reserveRecord);
+    }
+
+    @Override
+    public Map<String, List<ReserveRecord>> queryOrder(Integer userId) {
+        Map<String, List<ReserveRecord>> map = new LinkedHashMap<>();
+        List<ReserveRecord> reserveRecords = reserveRecordDao.queryOrder(userId);
+        map.put("reserveOrderList",reserveRecords);
+        return map;
+    }
+
+
 }

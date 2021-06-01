@@ -75,5 +75,7 @@ public interface ReserveRecordDao {
 
     Integer queryByStateName(Integer id);
 
+    List<ReserveRecord> queryOrder(@Param("userId")Integer userId);
+
 
 }

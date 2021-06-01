@@ -396,13 +396,7 @@ public class PageController {
         return result;
     }
 
-    /**
-     * 跳转到客户入住记录
-     */
-    @RequestMapping("liveRecord/index")
-    public ModelAndView liveRecord(HttpServletRequest request) {
-        return ModelUtils.createModel(request, "/user/live_record/index");
-    }
+
 
     /**
      * 跳转到客户
@@ -412,29 +406,14 @@ public class PageController {
         return ModelUtils.createModel(request, "/user/order_record/index");
     }
 
-    /**
-     * 跳转到入住管理页面
-     */
-    @RequestMapping("live/index")
-    public ModelAndView liveIndex(HttpServletRequest request) {
-        return ModelUtils.createModel(request, "live/live/index");
+
+
+  /*  *//**
+     * 跳转到留言管理页面
+     *//*
+    @RequestMapping("suggestion/index")
+    public ModelAndView suggestionIndex(HttpServletRequest request) {
+        return ModelUtils.createModel(request, "/suggestion/index");
     }
-
-    /**
-     * 跳转到退房管理
-     */
-    @RequestMapping("cancel/index")
-    public ModelAndView cancelIndex(HttpServletRequest request) {
-        return ModelUtils.createModel(request, "/live/cancel/index");
-    }
-
-
-    /**
-     * 订单管理
-     */
-/*    @RequestMapping("order/index")
-    public ModelAndView orderIndex(HttpServletRequest request) {
-        return ModelUtils.createModel(request, "/live/order/index");
-    }*/
-
+*/
 }

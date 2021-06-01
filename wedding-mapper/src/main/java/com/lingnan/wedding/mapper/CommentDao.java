@@ -30,6 +30,9 @@ public interface CommentDao {
     List<Comment> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit,@Param("goodsName") String goodsName);
 
 
+
+
+
     /**
      * 通过实体作为筛选条件查询
      *
@@ -37,6 +40,10 @@ public interface CommentDao {
      * @return 对象列表
      */
     Comment queryAll(@Param("id") Integer id);
+
+
+
+    List<Comment> queryByUserName(@Param("username") String username);
 
     /**
      * 新增数据

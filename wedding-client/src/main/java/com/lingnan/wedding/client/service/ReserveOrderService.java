@@ -22,4 +22,10 @@ public interface ReserveOrderService {
 
     Map<String, Integer> queryByStateName(Integer id);
 
+    boolean cancelReserve(ReserveRecord reserveRecord);
+
+    Map<String, List<ReserveRecord>> queryOrder(Integer userId);
+
+
+
 }

@@ -56,4 +56,25 @@ public class ReserveOrderServiceController {
         Map<String, Integer> stringListMap = reserveOrderService.queryByStateName(id);
         return ResultVOUtil.success(stringListMap);
     }
+
+    @RequestMapping("/cancelReserve")
+    public ResultVO cancelReserve(@RequestBody ReserveRecord reserveRecord){
+        logger.info("-------------------cancelReserve------------{}",reserveRecord);
+        boolean flag = reserveOrderService.cancelReserve(reserveRecord);
+        if (flag){
+            return  ResultVOUtil.success("取消预约成功");
+        }else{
+            logger.info("取消预约失败");
+            return  ResultVOUtil.error("取消预约失败");
+        }
+    }
+
+    /**
+     * 查询订单
+     */
+    @RequestMapping("/queryOrder")
+    public ResultVO queryOrder(Integer userId){
+        Map<String, List<ReserveRecord>> stringListMap = reserveOrderService.queryOrder(userId);
+        return ResultVOUtil.success(stringListMap);
+    }
 }

@@ -45,6 +45,18 @@
         limit #{offset}, #{limit}
     </select>
 
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryByUserName" resultMap="CommentMap">
+        select
+          c.id,c.content,c.img,c.goods_id,c.username,c.looked_time,c.comment_star,c.approve_time,c.assess_time,g.goods_name,g.goods_img
+        from wedding_db.comment c
+        left join wedding_db.goods_info g on g.goods_id = c.goods_id
+        where c.username = #{username}
+    </select>
+
+
+
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CommentMap">
         select

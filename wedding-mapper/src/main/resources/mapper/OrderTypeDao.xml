@@ -30,6 +30,7 @@
         select
           id, status_name
         from wedding_db.order_type
+        where id>0
         order by id
     </select>
 
